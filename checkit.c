@@ -57,6 +57,23 @@ static int _do_md5sum(FILE *in, const char *file_name)
     return 0;
 }
 
+static int _do_sha1sum(FILE *in, const char *file_name)
+{
+    SHA1_CTX ctx;
+    unsigned char md[20] = {0};
+    unsigned char buffer[8192] = {0};
+    size_t buffer_size;
+
+    SHA1_Init(&ctx);
+    while ((buffer_size=fread(buffer, 1, 8192, in))>0) {
+        SHA1_Update(&ctx, buffer, buffer_size);
+    }
+    SHA1_Final(md, &ctx);
+    print_digest(file_name, md, 20);
+
+    return 0;
+}
+
 int main(int argc, char *argv[])
 {
     FILE *in;
@@ -83,7 +100,14 @@ int main(int argc, char *argv[])
         fclose(in);
         in = NULL;
     } else if (0 == strcmp(action, "sha1")) {
-        printf("Not implemented.\n");
+        in = fopen(file_name, "rb");
+        if (NULL == in) {
+            fprintf(stderr, "Can not open file %s.\n", file_name);
+            return 1;
+        }
+        _do_sha1sum(in, file_name);
+        fclose(in);
+        in = NULL;
     } else if (0 == strcmp(action, "sha224")) {
         printf("Not implemented.\n");
     } else if (0 == strcmp(action, "sha256")) {

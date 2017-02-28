@@ -16,13 +16,29 @@
  * ---------------------------------------------------------------------------
 */
 
-#ifndef __CHECKIT_H__
-#define __CHECKIT_H__
+#ifndef _SHA1_H
+#define _SHA1_H
 
-#define MIN(a, b) ((a) < (b) ? (a) : (b))
-#define LEFTROTATE(x, c) (((x) << (c)) | ((x) >> (32-(c))))
+#define SHA1_BLOCK 64
+#define ROUND(a, b, c, d, e, f, k, w, temp) \
+    temp = LEFTROTATE(a, 5)+f+e+k+w; \
+    e = d; \
+    d = c; \
+    c = LEFTROTATE(b, 30); \
+    b = a; \
+    a = temp;
 
-#include "md5.h"
-#include "sha1.h"
+typedef struct SHA1_CTX_ST
+{
+    unsigned int a, b, c, d, e;
+    unsigned long long len;
+    unsigned char block[SHA1_BLOCK];
+    unsigned long block_len;
+} SHA1_CTX;
+
+int SHA1_Init(SHA1_CTX *ctx);
+int SHA1_Update(SHA1_CTX *ctx, const unsigned char *data, unsigned long len);
+unsigned char* SHA1_Final(unsigned char *md, SHA1_CTX *ctx);
+
 #endif
 

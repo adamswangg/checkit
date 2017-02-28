@@ -1,12 +1,12 @@
 CFLAGS=/nologo
 
 EXE=checkit.exe
-OBJS=md5.obj checkit.obj
+OBJS=sha1.obj md5.obj checkit.obj
 
 all: $(EXE)
 
 $(EXE): $(OBJS)
-	link $(LINKFLAGS) /NOLOGO /subsystem:console /out:$(EXE) kernel32.lib $(OBJS)
+	link $(LINKFLAGS) /NOLOGO /subsystem:console /out:$(EXE) $(OBJS)
 
 clean:
 	del /Q $(EXE) $(OBJS)

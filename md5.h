@@ -20,7 +20,6 @@
 #define _MD5_H
 
 #define MD5_BLOCK 64
-#define LEFTROTATE(x, c) (((x) << (c)) | ((x) >> (32-(c))))
 
 typedef struct MD5_CTX_ST
 {

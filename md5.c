@@ -18,7 +18,6 @@
 
 #include <stdio.h>
 #include "checkit.h"
-#include "md5.h"
 
 static const unsigned int S[64] =
 {

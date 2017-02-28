@@ -1,0 +1,1 @@
+TEMP = S5(A) + ft(B,C,D) + E + Wt + Kt;
